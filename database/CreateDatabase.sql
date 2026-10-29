@@ -1,0 +1,6 @@
+
+CREATE DATABASE CPTLookup;
+GO
+
+USE CPTLookup;
+GO
