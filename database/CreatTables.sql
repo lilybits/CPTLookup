@@ -22,3 +22,29 @@ GO
 CREATE TABLE Insurance 
 (InsuranceID INT IDENTITY(1,1) PRIMARY KEY, Name VARCHAR(100) NOT NULL UNIQUE);
 GO
+
+
+-- prices for each ins
+CREATE TABLE CPTPrice 
+(CPTPriceID INT IDENTITY(1,1) PRIMARY KEY,
+CPTCodeID INT NOT NULL, InsuranceID INT NOT NULL,
+AllowedAmount DECIMAL(10,2) NULL, CoverageStatus VARCHAR(20) NOT NULL,
+
+CONSTRAINT FK_CPTPrice_CPTCode
+FOREIGN KEY (CPTCodeID)
+REFERENCES CPTCode(CPTCodeID),
+
+CONSTRAINT FK_CPTPrice_Insurance
+FOREIGN KEY (InsuranceID)
+REFERENCES Insurance(InsuranceID),
+
+CONSTRAINT UQ_CPTPrice_CodeInsurance
+UNIQUE (CPTCodeID, InsuranceID),
+
+CONSTRAINT CK_CPTPrice_CoverageStatus
+CHECK (CoverageStatus IN ('Covered', 'NotCovered', 'Unknown')),
+
+CONSTRAINT CK_CPTPrice_AllowedAmount
+CHECK (AllowedAmount >= 0)
+);
+GO
